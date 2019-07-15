@@ -5,11 +5,11 @@ Priority: optional
 Standards-Version: 4.1.3
 Homepage: http://mesonbuild.com
 X-Python3-Version: >= 3.5
-Build-Depends: debhelper (>= 11),
+Build-Depends: debhelper,
   python3 (>= 3.5),
   dh-python,
   python3-setuptools,
-  ninja-build (>= 1.6),
+  ninja-build,
 # The following are needed for the unit test suite
   zlib1g-dev <!nocheck>,
   pkg-config <!nocheck>,
@@ -82,7 +82,7 @@ Architecture: all
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${misc:Depends},
 # ${python3:Depends},
- ninja-build(>=1.6), python3
+ ninja-build, python3
 Description: high-productivity build system
  Meson is a build system designed to increase programmer
  productivity. It does this by providing a fast, simple and easy to
