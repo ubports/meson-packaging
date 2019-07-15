@@ -1,0 +1,4 @@
+1-disable-openmpi.patch
+2-cross-size-check.patch
+3-new-javac.patch
+4-gcc-cross-version.patch
