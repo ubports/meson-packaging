@@ -18,6 +18,9 @@
 
 export MESON_PRINT_TEST_OUTPUT=1
 export QT_SELECT=qt5
+# We're not in 1963 anymore, Toto!
+export LC_ALL=C.UTF-8
+export PYBUILD_NAME=meson
 
 %:
 	dh $@ --with python3 --buildsystem=pybuild
@@ -27,11 +30,6 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	echo "Build step overridden so dh_python3 won't run its own."
-
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-override_dh_auto_test:
-	#./run_tests.py
-endif
 
 override_dh_clean:
 	dh_clean
@@ -62,11 +60,7 @@ override_dh_install:
 # so it works. This behaviour is Debian packaging specific.
 # If you run the same commands outside of pbuilder, the scripts
 # are not copied.
-	rm $$(pwd)/debian/meson/usr/bin/meson
-	rm $$(pwd)/debian/meson/usr/bin/mesonconf
-	rm $$(pwd)/debian/meson/usr/bin/mesonintrospect
-	rm $$(pwd)/debian/meson/usr/bin/mesontest
-	rm $$(pwd)/debian/meson/usr/bin/wraptool
+	mkdir -p $$(pwd)/debian/meson/usr/bin
 	ln -s ../share/meson/meson $$(pwd)/debian/meson/usr/bin/meson
 	ln -s ../share/meson/mesonconf $$(pwd)/debian/meson/usr/bin/mesonconf
 	ln -s ../share/meson/mesonintrospect $$(pwd)/debian/meson/usr/bin/mesonintrospect

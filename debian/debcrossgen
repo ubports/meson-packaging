@@ -68,6 +68,8 @@ def run(options):
         ofile.write("cpp = '%s'\n" % locate_path(cpp))
         ofile.write("ar = '%s'\n" % locate_path("%s-ar" % host_arch))
         ofile.write("strip = '%s'\n" % locate_path("%s-strip" % host_arch))
+        ofile.write("objcopy = '%s'\n" % locate_path("%s-objcopy" % host_arch))
+        ofile.write("ld= '%s'\n" % locate_path("%s-ld" % host_arch))
         try:
             ofile.write("pkgconfig = '%s'\n" % locate_path("%s-pkg-config" % host_arch))
         except ValueError:

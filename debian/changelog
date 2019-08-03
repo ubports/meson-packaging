@@ -1,8 +1,68 @@
-meson (0.45.1-1ubports1) xenial; urgency=medium
+meson (0.47.2-1ubports1) xenial; urgency=medium
 
   * Import to UBPorts
 
- -- TheKit <nekit1000@gmail.com>  Mon, 15 Jul 2019 12:06:21 +0200
+ -- TheKit <nekit1000@gmail.com>  Sat, 03 Aug 2019 14:07:58 +0200
+
+meson (0.47.2-1ubuntu2) cosmic; urgency=medium
+
+  * Add proposed fix-dbus-test.patch to fix build test
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 05 Sep 2018 07:04:41 -0400
+
+meson (0.47.2-1ubuntu1) cosmic; urgency=medium
+
+  * Sync with Debian.
+  * Cherry-pick patch to not use quadmath with Fortran. (Closes: #907324)
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Sun, 02 Sep 2018 12:05:01 -0400
+
+meson (0.47.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Jussi Pakkanen <jpakkane@gmail.com>  Sat, 25 Aug 2018 11:15:05 +0300
+
+meson (0.47.1-2) unstable; urgency=medium
+
+  * Fix debcrossgen install properly. Closes: #903279.
+  * Re-enable Valgrind tests.
+
+ -- Jussi Pakkanen <jpakkane@gmail.com>  Fri, 3 Aug 2018 22:56:19 +0300
+
+meson (0.47.1-1) unstable; urgency=medium
+
+  * New upstream release. Closes: #903414.
+  * Install depfixer again, it got lost accidentally. Closes: #903279.
+  * Disable all Valgrind tests because of #903404.
+
+ -- Jussi Pakkanen <jpakkane@gmail.com>  Wed, 11 Jul 2018 00:05:14 +0300
+
+meson (0.47.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Switch to using standard Python install because trying to keep the
+    library private is just too damn hard and annoying.
+  * Updated Google test dependencies. Closes: #897174.
+  * Added build deps to test new functionality.
+
+ -- Jussi Pakkanen <jpakkane@gmail.com>  Mon, 02 Jul 2018 20:54:05 +0300
+
+meson (0.46.1-1) unstable; urgency=medium
+
+  * New upstream release. Closes: #896876.
+  * Use an UTF-8 locale because ASCII breaks tests.
+
+ -- Jussi Pakkanen <jpakkane@gmail.com>  Wed, 16 May 2018 19:28:58 +0300
+
+meson (0.46.0-1) unstable; urgency=medium
+
+  * New upstream release. Closes: #892515.
+  * Updated debcrossgen.
+  * Old command names now only print errors. Closes: #886882.
+  * Marked pytho3 dependency with :any as recommended by multiarch hinter.
+
+ -- Jussi Pakkanen <jpakkane@gmail.com>  Sun, 22 Apr 2018 19:42:22 +0300
 
 meson (0.45.1-2) unstable; urgency=medium
 
