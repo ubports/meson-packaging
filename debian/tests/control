@@ -1,8 +1,12 @@
 Tests: basicmeson
-Depends: meson, ninja-build, g++
+Depends: meson, g++
 
 Tests: clangmeson
-Depends: meson, ninja-build, clang
+Depends: meson, clang
 
 Tests: exhaustive
-Depends: meson, @builddeps@
+Depends: meson, @builddeps@, rustc, valac
+
+Tests: crossbuild
+Depends: meson, g++, g++-arm-linux-gnueabihf
+Restrictions: allow-stderr, skip-not-installable

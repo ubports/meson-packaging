@@ -1,70 +1,20 @@
 #!/usr/bin/make -f
 
-# Meson does not use Debhelper's distutils/setuptools
-# module as it has a few problems:
-#
-# - assumes that package is a "library" and enforces
-#   a prefixed name of python3-meson (which we don't
-#   want).
-# - splitting one source package into multiple binary
-#   packages was insurmountable (may be possible but
-#   there is no documentation on how to do this with
-#   the Python helper, it overrides something so guides
-#   for regular packages don't work)
-
-
 # Print all logging info to stdout so it
 # shows up in build logs.
-
 export MESON_PRINT_TEST_OUTPUT=1
+
 export QT_SELECT=qt5
+
 # We're not in 1963 anymore, Toto!
 export LC_ALL=C.UTF-8
+
 export PYBUILD_NAME=meson
 
 %:
 	dh $@ --with python3 --buildsystem=pybuild
 
-override_dh_auto_configure:
-	echo "Meson does not need to be configured."
-
-override_dh_auto_build:
-	echo "Build step overridden so dh_python3 won't run its own."
-
-override_dh_clean:
-	dh_clean
-	rm -f *.pyc
-	rm -rf __pycache__
-	rm -rf mesonbuild/__pycache__
-	rm -rf mesonbuild/*/__pycache__
-	rm -rf work\ area
-	rm -rf install\ dir/*
-	rm -f meson-test-run.txt meson-test-run.xml
-	rm -rf meson.egg-info
-	rm -rf build
-	rm -rf .pybuild
-
-override_dh_install:
-	python3 setup.py install --root=$$(pwd)/debian/meson --prefix=/usr --install-layout=deb --install-lib=/usr/share/meson --install-scripts=/usr/share/meson
-# For some reason these Python 2 files are generated during
-# install. Get rid of them and the egg info which is only
-# useful for public packages.
-	rm -rf $$(pwd)/debian/meson/usr/lib/python3*
-	rm -rf $$(pwd)/debian/meson/usr/share/meson/meson*.egg-info
-	rm -rf $$(pwd)/debian/meson/usr/share/meson/mesonbuild/__pycache__
-	rm -rf $$(pwd)/debian/meson/usr/share/meson/mesonbuild/*/__pycache__
-# Debian's Python packaging insist on copying scripts to /usr/bin
-# because they assume that any modules they import are in the public
-# PYTHONPATH. Meson has an internal library that is not, so this
-# fails. Replace them with symlinks inside the private package
-# so it works. This behaviour is Debian packaging specific.
-# If you run the same commands outside of pbuilder, the scripts
-# are not copied.
-	mkdir -p $$(pwd)/debian/meson/usr/bin
-	ln -s ../share/meson/meson $$(pwd)/debian/meson/usr/bin/meson
-	ln -s ../share/meson/mesonconf $$(pwd)/debian/meson/usr/bin/mesonconf
-	ln -s ../share/meson/mesonintrospect $$(pwd)/debian/meson/usr/bin/mesonintrospect
-	ln -s ../share/meson/mesontest $$(pwd)/debian/meson/usr/bin/mesontest
-	ln -s ../share/meson/wraptool $$(pwd)/debian/meson/usr/bin/wraptool
-# Helper script to autogenerate cross files.
-	cp debian/debcrossgen $$(pwd)/debian/meson/usr/share/meson
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+override_dh_auto_test:
+#	./run_tests.py
+endif
