@@ -1,5 +1,18 @@
 #!/usr/bin/make -f
 
+# Meson does not use Debhelper's distutils/setuptools
+# module as it has a few problems:
+#
+# - assumes that package is a "library" and enforces
+#   a prefixed name of python3-meson (which we don't
+#   want).
+# - splitting one source package into multiple binary
+#   packages was insurmountable (may be possible but
+#   there is no documentation on how to do this with
+#   the Python helper, it overrides something so guides
+#   for regular packages don't work)
+
+
 # Print all logging info to stdout so it
 # shows up in build logs.
 export MESON_PRINT_TEST_OUTPUT=1
@@ -14,7 +27,25 @@ export PYBUILD_NAME=meson
 %:
 	dh $@ --with python3 --buildsystem=pybuild
 
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-override_dh_auto_test:
-#	./run_tests.py
-endif
+override_dh_auto_configure:
+	echo "Meson does not need to be configured."
+
+override_dh_auto_build:
+	echo "Build step overridden so dh_python3 won't run its own."
+
+override_dh_clean:
+	dh_clean
+	rm -f *.pyc
+	rm -rf __pycache__
+	rm -rf mesonbuild/__pycache__
+	rm -rf mesonbuild/*/__pycache__
+	rm -rf work\ area
+	rm -rf install\ dir/*
+	rm -f meson-test-run.txt meson-test-run.xml
+	rm -rf meson.egg-info
+	rm -rf build
+	rm -rf .pybuild
+
+override_dh_install:
+	python3 setup.py install --root=$$(pwd)/debian/meson --prefix=/usr --install-layout=deb
+	cp debian/debcrossgen $$(pwd)/debian/meson/usr/share/meson
